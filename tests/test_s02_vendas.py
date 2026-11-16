@@ -46,6 +46,19 @@ def test_ler_vendas_e_um_gerador_que_ignora_invalidas():
     assert sum(v.total for v in vendas) == 1530740
 
 
+def test_leitura_ignora_e_conta_linhas_csv_incompletas(tmp_path):
+    caminho = tmp_path / "vendas.csv"
+    caminho.write_text(
+        "venda_id,data,cliente_id,ilha,categoria,quantidade,preco_unitario\n"
+        "V1,2025-01-05,C1,Sal,Bebidas,2,100\n"
+        "V2,2025-01-06,C2,Santiago,Mercearia,3\n",
+        encoding="utf-8",
+    )
+
+    assert [v.venda_id for v in ler_vendas(str(caminho))] == ["V1"]
+    assert contar_invalidas(str(caminho)) == 1
+
+
 def test_contar_invalidas():
     assert contar_invalidas(str(DADOS)) == 12
 

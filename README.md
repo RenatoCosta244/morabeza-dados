@@ -14,6 +14,8 @@ source .venv/bin/activate        # no Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
+PyYAML é instalado como dependência do projeto e é necessário para carregar a configuração da CLI.
+
 ## Verificar o teu trabalho
 
 ```bash

@@ -45,24 +45,32 @@ def criar_venda(linha: dict[str, str]) -> Venda:
     # TODO 3: levanta VendaInvalida se a quantidade ou o preço não forem > 0,
     #         ou se linha["ilha"] não estiver em ILHAS_SERVIDAS.
     # TODO 4: devolve Venda(...) com os valores já convertidos.
+    venda_id = linha.get("venda_id", "<desconhecida>")
     try:
-      quantidade = int(linha["quantidade"])
-      preco_unitario = int(linha["preco_unitario"])
-      if quantidade <= 0 or preco_unitario <= 0:
-                raise VendaInvalida(f"{linha['venda_id']}: valores inválidos")
-      if linha["ilha"] not in ILHAS_SERVIDAS:
-                raise VendaInvalida(f"{linha['venda_id']}: ilha inválida")
-      return Venda (
-          venda_id=linha["venda_id"],
-          data  = date.fromisoformat(linha["data"]),
-          cliente_id=linha["cliente_id"],
-          ilha=linha["ilha"],
-          categoria=linha["categoria"],
-          quantidade = int(linha["quantidade"]),
-          preco_unitario = int(linha["preco_unitario"])
-      )
-    except ValueError as erro:
-     raise VendaInvalida(f"{linha['venda_id']}: valor impossível") from erro
+        venda_id = linha["venda_id"]
+        data = date.fromisoformat(linha["data"])
+        cliente_id = linha["cliente_id"]
+        ilha = linha["ilha"]
+        categoria = linha["categoria"]
+        quantidade = int(linha["quantidade"])
+        preco_unitario = int(linha["preco_unitario"])
+    except (KeyError, TypeError, ValueError) as erro:
+        raise VendaInvalida(f"{venda_id}: linha incompleta ou inválida") from erro
+
+    if quantidade <= 0 or preco_unitario <= 0:
+        raise VendaInvalida(f"{venda_id}: valores inválidos")
+    if ilha not in ILHAS_SERVIDAS:
+        raise VendaInvalida(f"{venda_id}: ilha inválida")
+
+    return Venda(
+        venda_id=venda_id,
+        data=data,
+        cliente_id=cliente_id,
+        ilha=ilha,
+        categoria=categoria,
+        quantidade=quantidade,
+        preco_unitario=preco_unitario,
+    )
 
 
 def ler_vendas(caminho: str) -> Iterator[Venda]:

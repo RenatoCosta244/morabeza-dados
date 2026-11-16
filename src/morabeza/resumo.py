@@ -49,6 +49,7 @@ def faturacao_por_ilha(vendas: list[dict]) -> dict[str, int]:
     for venda in vendas:
         ilha = venda["ilha"]
         por_ilha[ilha] = por_ilha.get(ilha, 0) + total_venda(venda)
+
     return por_ilha
 
 
