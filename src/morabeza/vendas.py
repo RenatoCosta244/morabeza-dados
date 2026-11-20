@@ -11,9 +11,16 @@ from collections.abc import Callable, Iterable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date
+import numpy as np
+import pandas as pd
+from pathlib import Path
 
 ILHAS_SERVIDAS = {"Santiago", "São Vicente",
                   "Sal", "Boa Vista", "Fogo", "Santo Antão"}
+
+candidatas = [Path("data/tabelas"), Path("../data/tabelas"), Path(".")]
+PASTA = next(p for p in candidatas if (p / "vendas.csv").exists())
+print("Dados em:", PASTA.resolve())
 
 
 class VendaInvalida(Exception):
@@ -86,6 +93,7 @@ def ler_vendas(caminho: str) -> Iterator[Venda]:
                 continue
 
 
+
 def contar_invalidas(caminho: str) -> int:
     """Número de linhas do ficheiro que não dão uma Venda válida."""
     # TODO 6: igual a ler_vendas, mas em vez de devolver vendas conta quantas
@@ -111,6 +119,7 @@ def total_por(vendas: Iterable[Venda], chave: Callable[[Venda], str]) -> dict[st
     # TODO 8: igual a faturacao_por_ilha da Sessão 1, mas a chave do dicionário
     #         é chave(v) em vez de v["ilha"]. Assim a mesma função serve para
     #         agrupar por ilha, por categoria ou por mês.
+   
     totais: dict[str, int] = {}
     for v in vendas:
         k = chave(v)
