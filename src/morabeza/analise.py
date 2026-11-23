@@ -35,9 +35,8 @@ def faturacao_mensal_por_ilha(df: pd.DataFrame) -> pd.DataFrame:
     """Tabela com uma linha por mês ("AAAA-MM"), uma coluna por ilha e a faturação nas células."""
     # TODO 4: cria uma coluna mes com df["data"].dt.strftime("%Y-%m") e usa
     #         pivot_table(index="mes", columns="ilha", values="total", aggfunc="sum", fill_value=0).
-    df["mes"] = df["data"].dt.strftime("%Y-%m")
-    tabela = df.pivot_table(index="mes", columns="ilha", values="total", aggfunc="sum", fill_value=0)
-    return tabela
+    df["mes"] = df["data"].dt.strftime("%Y-%m") 
+    return df.pivot_table(index="mes", columns="ilha", values="total", aggfunc="sum", fill_value=0)
     
 
 
