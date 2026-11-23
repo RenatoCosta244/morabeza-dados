@@ -76,10 +76,32 @@ def otimizar_tipos(df: pd.DataFrame) -> pd.DataFrame:
     """Converte colunas de texto repetitivo em category e reduz os inteiros."""
     # EXTENSÃO: astype("category") nas colunas de texto que se repetem (ilha, tipo, categoria,
     #           nome, produto_id) e pd.to_numeric(..., downcast="integer") em quantidade e preco_unitario.
-    
+    otimizado = df.copy()
+    texto_repetitivo = (
+        "ilha",
+        "tipo",
+        "categoria",
+        "nome",
+        "produto_id",
+        "cliente_id",
+        "venda_id",
+        "mes",
+    )
+    for coluna in texto_repetitivo:
+        if coluna in otimizado.columns:
+            otimizado[coluna] = otimizado[coluna].astype("category")
+
+    for coluna in ("quantidade", "preco_unitario"):
+        if coluna in otimizado.columns:
+            otimizado[coluna] = pd.to_numeric(otimizado[coluna], downcast="integer")
+    return otimizado
 
 
 def formato_longo(tabela: pd.DataFrame) -> pd.DataFrame:
     """Passa a tabela mensal (uma coluna por ilha) para formato longo: mes, ilha, total."""
     # EXTENSÃO: tabela.reset_index().melt(id_vars="mes", var_name="ilha", value_name="total")
-    raise NotImplementedError("Extensão por fazer")
+    return tabela.reset_index().melt(
+        id_vars="mes",
+        var_name="ilha",
+        value_name="total",
+    )
