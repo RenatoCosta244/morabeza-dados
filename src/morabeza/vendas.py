@@ -11,16 +11,9 @@ from collections.abc import Callable, Iterable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date
-import numpy as np
-import pandas as pd
-from pathlib import Path
 
 ILHAS_SERVIDAS = {"Santiago", "São Vicente",
                   "Sal", "Boa Vista", "Fogo", "Santo Antão"}
-
-candidatas = [Path("data/tabelas"), Path("../data/tabelas"), Path(".")]
-PASTA = next(p for p in candidatas if (p / "vendas.csv").exists())
-print("Dados em:", PASTA.resolve())
 
 
 class VendaInvalida(Exception):
