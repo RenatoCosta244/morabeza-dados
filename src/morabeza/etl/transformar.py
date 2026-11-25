@@ -24,6 +24,8 @@ _ALIASES = {
 def _achatar(texto):
     """(VEM PRONTA) 'S. Vicente ' -> 'svicente' (minúsculas, sem acentos,
     só letras e números)."""
+    if texto is None or pd.isna(texto):
+        return ""
     sem_acentos = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode()
     return "".join(ch for ch in sem_acentos.lower() if ch.isalnum())
 

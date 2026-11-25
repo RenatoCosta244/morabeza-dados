@@ -4,10 +4,10 @@ As fontes estão em data/fontes_s1_2025/. Testa com:
     pytest tests/test_etl_lab5.py -v
 """
 
-import json  # noqa: F401  (vais precisar)
-import sqlite3  # noqa: F401
+import json
+import sqlite3
 
-import pandas as pd  # noqa: F401
+import pandas as pd
 
 
 def ler_vendas_csv(caminho):
