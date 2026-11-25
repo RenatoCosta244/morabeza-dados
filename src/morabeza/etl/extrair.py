@@ -13,14 +13,12 @@ import pandas as pd
 def ler_vendas_csv(caminho):
     """Lê o CSV de vendas com TUDO como texto (dtype=str), para não perder
     informação antes de limpar."""
-    vendas = pd.read_csv(caminho, dtype=str)
-    return vendas
+    return pd.read_csv(caminho, dtype=str)
 
 
 def ler_produtos_excel(caminho):
     """Lê a folha 'produtos' do Excel."""
-    produtos = pd.read_excel(caminho, sheet_name="produtos")
-    return produtos
+    return pd.read_excel(caminho, sheet_name="produtos")
 
 
 def ler_clientes_sqlite(caminho):
