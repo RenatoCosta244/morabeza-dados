@@ -19,13 +19,15 @@ COLUNAS = ["venda_id", "data", "cliente_id", "produto_id", "quantidade", "preco_
 
 def ficheiros_pendentes(pasta: str, conn: sqlite3.Connection) -> list[Path]:
     """Ficheiros vendas_*.csv da pasta que ainda não estão em ficheiros_processados, por ordem de nome."""
-    # TODO 1: lê os nomes já processados: conn.execute("SELECT nome FROM ficheiros_processados")
-    #         devolve tuplos; guarda o primeiro elemento de cada um num conjunto.
-    # TODO 2: devolve, ordenados, os Path(pasta).glob("vendas_*.csv") cujo .name não está no conjunto.
-    conn.execute("SELECT nome FROM ficheiros_processados")
-    nomes_processados = {linha[0] for linha in conn.cursor().fetchall()}
-    COLUNAS = conn.cursor().description
-    return sorted([f for f in Path(pasta).glob("vendas_*.csv") if f.name not in nomes_processados])
+    nomes_processados = {
+        linha[0]
+        for linha in conn.execute("SELECT nome FROM ficheiros_processados").fetchall()
+    }
+    return sorted(
+        f
+        for f in Path(pasta).glob("vendas_*.csv")
+        if f.name not in nomes_processados
+    )
 
 
 def carregar_vendas(df: pd.DataFrame, conn: sqlite3.Connection) -> int:
